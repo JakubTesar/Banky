@@ -1,40 +1,42 @@
 package logic;
 
 public class BankAccount {
-    private People user;
+    private Human user;
     private int money;
     private int id;
 
-    public BankAccount(People user, int id) {
+    public BankAccount(Human user, int id) {
         this.money = 0;
         this.user = user;
         this.id = id;
     }
 
-    public void addMoneyAccount(int money2) {
-         this.money += money2;
+    public void addMoney(int money2) {
+        this.money += money2;
     }
 
-    public void removeMoneyAccount(int money2) {
-        if (this.money >= 0){
+    public boolean removeMoney(int money2) {
+        if (this.money - money2 >= 0) {
             this.money -= money2;
+            return true;
+        }
+        return false;
+    }
+
+    public void transferMoney(BankAccount account, int amount) {
+        if (removeMoney(amount)) {
+            account.addMoney(amount);
         }
     }
 
     public int getMoney() {
         return money;
     }
-    public void setMoney(int money) {
-        this.money = money;
-    }
     public int getId() {
         return id;
     }
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public People getUser() {
+    public Human getUser() {
         return user;
     }
+
 }

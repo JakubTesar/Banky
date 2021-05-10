@@ -1,23 +1,26 @@
 package logic;
-
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Bank {
-    private static ArrayList<BankAccount> accounts;
+    private ArrayList<BankAccount> accounts;
     private String name;
-    private final int id;
 
-    public Bank(String name, int id) {
+    public Bank(String name) {
         this.accounts = new ArrayList<>();
         this.name = name;
-        this.id = id;
     }
-    public BankAccount createAccount(People user) {
-        int acId = Integer.parseInt(this.id + "" + getNewAccountID());
-        BankAccount newAccount = new BankAccount(user, acId);
-        this.accounts.add(newAccount);
-        return newAccount;
+
+    public void createNewAccount(Human human){
+        accounts.add(new BankAccount(human, getNewAccountID()));
+    }
+    public void deleteAccount(Human human){
+        for (int i = 0; i < accounts.size(); i++) {
+            if (accounts.get(i).getUser().getName().equals(human.getName())){
+                accounts.remove(i);
+                break;
+            }
+        }
     }
     private int getNewAccountID() {
         ArrayList<Integer> ids = new ArrayList<>();
@@ -34,32 +37,14 @@ public class Bank {
         }
         return randID;
     }
-    public void deleteAccount(int id) {
+
+    public BankAccount getAccountByName(Human human){
         for (int i = 0; i < accounts.size(); i++) {
-            if (this.accounts.get(i).getId() == id) {
-                this.accounts.remove(i);
-                break;
+            if (accounts.get(i).getUser().getName().equals(human.getName())){
+                return accounts.get(i);
             }
         }
-    }
-
-    public static ArrayList<BankAccount> getAccounts() {
-        return accounts;
-    }
-
-    public static void sendMoney(BankAccount accountSender, BankAccount accountReceiver, int money2) {
-        accountSender.removeMoneyAccount(money2);
-        accountReceiver.addMoneyAccount(money2);
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public int getBankID() {
-        return id;
+        return null;
     }
 }
 
